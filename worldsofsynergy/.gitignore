@@ -1,0 +1,6 @@
+/.settings/
+/.classpath
+/phantomjsdriver.log
+/bin/
+/screenshots/
+/firefox.log

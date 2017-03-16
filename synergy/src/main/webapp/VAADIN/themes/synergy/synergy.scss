@@ -1,0 +1,167 @@
+// Do not actually include valo here; the application's stylesheet does that later 
+@import "../../../VAADIN/themes/synergy/synergy-button.scss";
+@import "../../../VAADIN/themes/synergy/synergy-image.scss";
+
+@mixin synergy(
+	$primary-stylename: synergy, 
+	$background-color: $v-background-color, 
+	$selected-color: $v-focus-color, 
+	$ancestor-of-selected-color: auto, 
+	$unselected-color: $background-color, 
+	$triangle-color: $v-background-color,
+	$unit-size: $v-unit-size,
+	$triangle-size: auto,
+	$spacing: auto) {
+
+	@if $ancestor-of-selected-color == 'auto' {
+		@if is-dark-color($background-color) {
+			$aos-color: darken($v-focus-color, 25%)			
+		} @else {
+			$aos-color: lighten($v-focus-color, 25%)
+		}
+	} @else {
+		$aos-color: $ancestor-of-selected-color;
+	}
+	
+	@if $triangle-size == 'auto' {
+		$triangle-dim: round($unit-size/6);
+	} @else {
+		$triangle-dim: $triangle-size;
+	}
+	
+	@if $spacing == 'auto' {
+		$spacing-dim: round($unit-size/3);
+		$half-spacing-dim: round($unit-size/6);
+		$quarter-spacing-dim: round($unit-size/12);
+	} @else {
+		$spacing-dim: $spacing;
+		$half-spacing-dim: round($spacing/2);
+		$quarter-spacing-dim: round($spacing/4);
+	}
+	
+	@include synergy-button($primary-stylename: #{$primary-stylename}-button-synergy-unselected, $background-color: $unselected-color, $hover-color: $selected-color);
+	@include synergy-button($primary-stylename: #{$primary-stylename}-button-synergy-selected, $background-color: $selected-color);
+	@include synergy-button($primary-stylename: #{$primary-stylename}-button-synergy-ancestor-of-selected, $background-color: $aos-color, $hover-color: $selected-color);
+
+	.#{$primary-stylename}-button-vertical {
+		text-align: left;
+		width: 100%;
+        //margin: $spacing-dim 0 0 0;
+	}
+	
+	@include synergy-image($primary-stylename: #{$primary-stylename}-image-synergy-unselected, $background-color: $unselected-color, $hover-color: $selected-color);
+	@include synergy-image($primary-stylename: #{$primary-stylename}-image-synergy-selected, $background-color: $selected-color);
+	@include synergy-image($primary-stylename: #{$primary-stylename}-image-synergy-ancestor-of-selected, $background-color: $aos-color, $hover-color: $selected-color);
+
+	.#{$primary-stylename}-image-vertical {
+        //margin: $spacing-dim 0 0 0;
+	}
+
+    @if $triangle-color != 'none' {
+		.#{$primary-stylename}-vertical .synergy-selected.vertical.item:after {
+			// triangle
+			content: "";
+			position:absolute;
+			border-top: $triangle-dim solid transparent;
+			border-bottom: $triangle-dim solid transparent;
+			border-right: $triangle-dim solid $triangle-color;
+			margin-left: -$triangle-dim;
+			margin-top: -$triangle-dim;
+			top: 50%;
+			height: 0;
+	    }
+	}
+
+	.#{$primary-stylename}-button-horizontal {
+		text-align: center;
+	}
+
+    @if $triangle-color != 'none' {
+		.#{$primary-stylename}-horizontal .synergy-selected.horizontal.item:after {
+			// triangle
+			content: "";
+			position:absolute;
+			border-left: $triangle-dim solid transparent;
+			border-bottom: $triangle-dim solid $triangle-color;
+			border-right: $triangle-dim solid transparent;
+			margin-top: -$triangle-dim;
+			margin-left: -$triangle-dim;
+			left: 50%;
+			top: 100%;
+			width: 0;
+	    }
+	}
+	
+	.#{$primary-stylename} {
+		background-color: transparent;
+	}
+	
+	.#{$primary-stylename} .v-verticallayout {
+		.v-slot-wrapper.v-slot-synergy-selected {
+			& > .wrapper {
+				background-color: $selected-color;
+			}
+		}
+		.v-slot-wrapper.v-slot-synergy-ancestor-of-selected {
+			& > .wrapper {
+				background-color: $aos-color;
+			}
+		}
+
+		.v-slot-synergy-selected.v-slot-children + .v-spacing /*, .v-slot-synergy-selected.v-slot-wrapper + .v-spacing */ {
+			background-color: $selected-color;
+			width: 100% !important;
+		}
+		.v-slot-synergy-ancestor-of-selected.v-slot-children + .v-spacing /*, .v-slot-synergy-ancestor-of-selected.v-slot-wrapper + .v-spacing */ {
+			background-color: $aos-color;
+			width: 100% !important;
+		}
+
+	}
+	
+	.#{$primary-stylename}-vertical .v-slot-vertical {
+		position: relative;
+	}
+	
+	.#{$primary-stylename}-horizontal {
+		border-bottom: valo-border($v-border);
+		
+		.v-horizontallayout {
+			.v-expand {
+				.v-slot-horizontal {
+					
+					& > .horizontal {
+						border-left: transparent solid $half-spacing-dim;
+		  				border-right: transparent solid $half-spacing-dim;
+		  				background-clip: padding-box;
+					}
+					
+					& > .synergy-image {
+						height: 100%;
+						
+						.v-verticallayout {
+							vertical-align: bottom;
+														
+						    @if $triangle-color != 'none' {
+						    	// add space below the label to accommodate the triangle
+								.v-label {
+									margin-bottom: $triangle-dim;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// .synergy-selected {
+			// background-color: $selected-color;
+		// }
+
+		// .synergy-ancestor-of-selected {
+			// background-color: $aos-color;
+		// }
+	}
+
+	.#{$primany-stylename} .v-slot:focus {}	
+}

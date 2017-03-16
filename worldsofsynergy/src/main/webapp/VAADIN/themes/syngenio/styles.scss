@@ -1,0 +1,40 @@
+$dark-background-color: #50514e;
+$highlight-color: #f0c700;
+$v-focus-color: rgb(147,241,0);
+$v-background-color: $dark-background-color;
+$v-app-background-color: $dark-background-color;
+$syn-aos-color: rgb(171,140,0);
+
+$margin-size: 6px;
+
+@import "addons.scss";
+@import "../valo/_valo.scss";
+
+/* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
+.syngenio {
+
+  @include synergy($ancestor-of-selected-color: $syn-aos-color);
+  @include valo;
+
+  .v-label-greenbar {
+  	background: $v-selection-color;
+  }
+
+	.v-splitpanel-hsplitter {
+		div:before {
+			border: 3px solid $v-selection-color;
+		}
+	}
+	
+  .v-slot-greenbar {
+  	height: 3px;
+  }
+  
+  // .v-panel-content {
+  	// background: white;	
+  // }
+  
+  .v-required-field-indicator {
+  	color: $v-focus-color;
+  }
+}
